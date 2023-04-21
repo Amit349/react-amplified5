@@ -10,19 +10,23 @@ import { withAuthenticator, Button as Abutton, Heading, View } from '@aws-amplif
 import '@aws-amplify/ui-react/styles.css';
 
 //import style from '@/styles/Home.module.css'
-//import Button from '@material-ui/core/Button';
 //import { borders } from '@material-ui/system';
-//import { Box } from '@material-ui/core';
+import Button from '@mui/material/Button';
+
+
 //import { ForHeader } from './pages/components/header'
 //import {hh} from './pages/components/headerCopy'
 
 
 
 
-Amplify.configure(awsExports);
 
 
-function App({ signOut, user }) {
+
+
+function App({ signOut, user }:{signOut:any , user:any }){
+  // eslint-disable-next-line @typescript-eslint/no-redeclare
+  
 
   
   const week = ["日", "月", "火", "水", "木", "金", "土"];
@@ -34,6 +38,7 @@ function App({ signOut, user }) {
 
 
   function createProcess(year: number, month: number) {
+    // eslint-disable-next-line no-useless-concat
     let calendar = "<table>" + "<tr className='dayofweek'>"
       for (let i = 0; i < week.length; i++) {
         calendar += "<th>" + week[i] + "</th>"
