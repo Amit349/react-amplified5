@@ -10,7 +10,7 @@ export function ForHeader() {
 
     
     return(
-      <h2>{dateNumber}[0]年  {dateNumber}[1]月</h2>
+      <h2 id = "header">{dateNumber}[0]年  {dateNumber}[1]月</h2>
     )
     };
 
