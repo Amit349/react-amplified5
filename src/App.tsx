@@ -14,8 +14,8 @@ import '@aws-amplify/ui-react/styles.css';
 import Button from '@mui/material/Button';
 
 
-//import { ForHeader } from './pages/components/header'
-//import {hh} from './pages/components/headerCopy'
+import { ForHeader } from './pages/header'
+import { Grid } from '@mui/material';
 
 
 
@@ -24,7 +24,7 @@ import Button from '@mui/material/Button';
 
 
 
-function App({ signOut, user }:{signOut:any , user:any }){
+function App(){
   // eslint-disable-next-line @typescript-eslint/no-redeclare
   
 
@@ -34,10 +34,10 @@ function App({ signOut, user }:{signOut:any , user:any }){
 
   const showDate = new Date(today.getFullYear(), today.getMonth(), 1);
 
-  let dateNumber:number[] = []
 
 
-  function createProcess(year: number, month: number) {
+
+  function CreateProcess(year: number, month: number) {
     // eslint-disable-next-line no-useless-concat
     let calendar = "<table>" + "<tr className='dayofweek'>"
       for (let i = 0; i < week.length; i++) {
@@ -45,7 +45,6 @@ function App({ signOut, user }:{signOut:any , user:any }){
       }
       calendar += "</tr>"
 
-    //このようなjsxで書かれたHTMLタグをmaterial-UIの<Box>コンポーネント(又は複数の種類のコンポーネント)に書き換えたい
    
 
     let count = 0;
@@ -75,7 +74,12 @@ function App({ signOut, user }:{signOut:any , user:any }){
       }
       calendar += "</tr>";
     }          //↑のようなタグも全てコンポーネントに書き換えた方が良いのか？
-    return calendar;
+    return calendar
+      
+      
+
+      
+    
   }
 
 
@@ -85,12 +89,11 @@ function App({ signOut, user }:{signOut:any , user:any }){
     // document.querySelector('#header')!.innerHTML = year + "年 " + (month + 1) + "月";
  
 
+    let calendar = CreateProcess(year, month);
+   document.querySelector('#calendar')!.innerHTML = calendar ;//←この部分を<Calendar>コンポーネントに付けたい
 
-    let calendar = createProcess(year, month);
-    document.querySelector('#calendar')!.innerHTML = calendar ;//←この部分を<Calendar>コンポーネントに付けたい
-
-      dateNumber = [year,month]
-    console.log(dateNumber)
+      //dateNumber = [year,month]
+ return year
   }
 
 
@@ -113,28 +116,24 @@ function App({ signOut, user }:{signOut:any , user:any }){
     showDate.setMonth(showDate.getMonth() + 1);
     ShowProcess(showDate);
     console.log("chip")
-    let B = 0
-    console.log(B)
-    B++
-    if (B === 3) {
-      console.log(B)
-    }
+    console.log(showDate)
+    
   }
 
-
   return (
+    
     <>
-      <View style={styles.container}>
-        <Heading level={3}>Hello {user.username}</Heading>
-        <Abutton onClick={signOut}>Sign out</Abutton>
-      </View>
+     
 
       <div className="wrapper">
+        <ForHeader ></ForHeader>
+        <Grid >
+    kkk
+         
+        </Grid>
         
        
         
-        {/*ここでHeaderコンポーネントを呼び出したい*/}
-
 
 
 
@@ -152,12 +151,9 @@ function App({ signOut, user }:{signOut:any , user:any }){
 
   )
 }
-export let dateNumber: number[]
+export let dateNumber: number = 9
 
 
-const styles = {
-  container: { width: 250, display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: 25 },
-  button: { backgroundColor: 'black', color: 'white', outline: 'none', fontSize: 18, padding: '12px 0px' }
-}
 
-export default withAuthenticator(App);
+
+export default (App);
