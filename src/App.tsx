@@ -39,11 +39,15 @@ function App(){
 
   function CreateProcess(year: number, month: number) {
     // eslint-disable-next-line no-useless-concat
-    let calendar = "<table>" + "<tr className='dayofweek'>"
-      for (let i = 0; i < week.length; i++) {
-        calendar += "<th>" + week[i] + "</th>"
-      }
-      calendar += "</tr>"
+    let calendar = [<>
+    <table></table>
+    <tr></tr>
+    </>]
+     const ShowWeek = week.map((week,index)=>{
+      return (
+      <Grid key={index}>{week}</Grid>
+      )
+     })
 
    
 
@@ -54,27 +58,27 @@ function App(){
     let row = Math.ceil((startDayOfWeek + endDate) / week.length);
 
     for (let i = 0; i < row; i++) {
-      calendar += "<tr>"
+      calendar.push(<tr></tr>)
       for (let j = 0; j < week.length; j++) {
         if (i === 0 && j < startDayOfWeek) {
-          calendar += "<td class='disabled'>" + (lastMonthEndDate - startDayOfWeek + j + 1) + "</td>";
+          calendar.push( <td className='disabled'> {lastMonthEndDate - startDayOfWeek + j + 1} </td>)
         } else if (count >= endDate) {
           count++;
-          calendar += "<td class='disabled'>" + (count - endDate) + "</td>";
+          calendar.push (<td className='disabled'>  {count - endDate} </td>)
         } else {
           count++;
           if (year === today.getFullYear()
             && month === (today.getMonth())
             && count === today.getDate()) {
-            calendar += "<td class='today'>" + count + "</td>";
+            calendar.push( <td className='today'>  {count} </td>)
           } else {
-            calendar += "<td>" + count + "</td>";
+            calendar.push( <td> { count} </td>)
           }
         }
       }
-      calendar += "</tr>";
+     
     }          //↑のようなタグも全てコンポーネントに書き換えた方が良いのか？
-    return calendar
+    return <div>{ShowWeek}</div>
       
       
 
@@ -90,7 +94,7 @@ function App(){
  
 
     let calendar = CreateProcess(year, month);
-   document.querySelector('#calendar')!.innerHTML = calendar ;//←この部分を<Calendar>コンポーネントに付けたい
+   //document.querySelector('#calendar')!.innerHTML = calendar ;//←この部分を<Calendar>コンポーネントに付けたい
 
       //dateNumber = [year,month]
  return year
