@@ -6,7 +6,6 @@ import React, { useEffect } from 'react'
 import { Amplify, } from 'aws-amplify'
 import awsExports from "./aws-exports"
 
-import { withAuthenticator, Button as Abutton, Heading, View } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
 
 //import style from '@/styles/Home.module.css'
@@ -18,22 +17,37 @@ import { ForHeader } from './pages/header'
 import { Grid } from '@mui/material';
 
 
+const today = new Date();
+const showDate = new Date(today.getFullYear(), today.getMonth(), 1);
+
+export let CalendarNum:number[] = []
+
+function ShowProcess(date: Date) {
+    const year = date.getFullYear();
+    const month = date.getMonth();
+    // document.querySelector('#header')!.innerHTML = year + "年 " + (month + 1) + "月";
+ 
+
+    //let calendar = CreateProcess(year, month);
+   //document.querySelector('#calendar')!.innerHTML = calendar ;//←この部分を<Calendar>コンポーネントに付けたい
+  CalendarNum = [year,month+1]
 
 
+}
+
+export {ShowProcess}
 
 
-
-
+ 
 function App(){
   // eslint-disable-next-line @typescript-eslint/no-redeclare
   
 
   
   const week = ["日", "月", "火", "水", "木", "金", "土"];
-  const today = new Date();
+ 
 
-  const showDate = new Date(today.getFullYear(), today.getMonth(), 1);
-
+  
 
 
 
@@ -78,7 +92,7 @@ function App(){
       }
      
     }          //↑のようなタグも全てコンポーネントに書き換えた方が良いのか？
-    return <div>{ShowWeek}</div>
+    return calendar
       
       
 
@@ -87,20 +101,8 @@ function App(){
   }
 
 
-  function ShowProcess(date: Date) {
-    const year = date.getFullYear();
-    const month = date.getMonth();
-    // document.querySelector('#header')!.innerHTML = year + "年 " + (month + 1) + "月";
- 
-
-    let calendar = CreateProcess(year, month);
-   //document.querySelector('#calendar')!.innerHTML = calendar ;//←この部分を<Calendar>コンポーネントに付けたい
-
-      //dateNumber = [year,month]
- return year
-  }
-
-
+  
+console.log(ShowProcess(today))
 
   useEffect(() => {
 
@@ -121,7 +123,9 @@ function App(){
     ShowProcess(showDate);
     console.log("chip")
     console.log(showDate)
-    
+   console.log(ShowProcess(showDate))
+
+
   }
 
   return (
@@ -130,17 +134,7 @@ function App(){
      
 
       <div className="wrapper">
-        <ForHeader ></ForHeader>
-        <Grid >
-    kkk
-         
-        </Grid>
-        
-       
-        
-
-
-
+        <ForHeader count={8}/>
 
         <div id="next-last-btn">
           <Button variant="contained" id="last" onClick={last}>＜</Button>
@@ -152,10 +146,12 @@ function App(){
       </div>
 
     </>
+   
 
   )
+ 
 }
-export let dateNumber: number = 9
+
 
 
 

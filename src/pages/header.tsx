@@ -1,18 +1,24 @@
 import React from "react";
-import {dateNumber} from "../App"
+import { ShowProcess, CalendarNum } from '../App';
 
 
-export function ForHeader() {
+type Props ={
+  count:number
+}
+
+export const ForHeader: React.FC<Props> = (props) =>  {
    
-    console.log(dateNumber)
- 
- 
-
     
+    console.log(ShowProcess)
+    console.log(CalendarNum)
+ 
     return(
-      <h2 id = "header">{dateNumber}[0]年  {dateNumber}[1]月</h2>
+     <>
+      <h2 id= "header">{CalendarNum[0]}年{CalendarNum[1]} 月</h2>
+     </>
+    
     )
     };
 
    
-         
+    
