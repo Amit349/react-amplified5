@@ -1,41 +1,54 @@
 /* src/App.js */
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 //import PropTypes from 'prop-types';
 
 
 import { Amplify, } from 'aws-amplify'
 import awsExports from "./aws-exports"
-
 import '@aws-amplify/ui-react/styles.css';
-
 //import style from '@/styles/Home.module.css'
 //import { borders } from '@material-ui/system';
-import Button from '@mui/material/Button';
 
+import Button from '@mui/material/Button';
+import { Grid } from '@mui/material';
 
 import { ForHeader } from './pages/header'
-import { Grid } from '@mui/material';
+
+import { format } from 'date-fns'
+import { ja } from 'date-fns/locale'
 
 
 const today = new Date();
+console.log(today)
 const showDate = new Date(today.getFullYear(), today.getMonth(), 1);
 
-export let CalendarNum:number[] = []
+export let CalendarNum: number[] = [today.getFullYear(), today.getMonth(),]
 
-function ShowProcess(date: Date) {
-    const year = date.getFullYear();
-    const month = date.getMonth();
+console.log("現在時刻", CalendarNum[0],CalendarNum[1]+1)
+
+
+const japanTime = new Date(today.toLocaleString('ja-JP', { timeZone: 'Asia/Tokyo' }));
+const formattedTime = format(japanTime, 'yyyy年MM月dd日 HH:mm', { locale: ja });
+console.log(formattedTime);
+
+
+
+function ShowProcess(CalendarNum: number[]) {
+   
     // document.querySelector('#header')!.innerHTML = year + "年 " + (month + 1) + "月";
  
 
     //let calendar = CreateProcess(year, month);
    //document.querySelector('#calendar')!.innerHTML = calendar ;//←この部分を<Calendar>コンポーネントに付けたい
-  CalendarNum = [year,month+1]
+  CalendarNum[1] +=1
 
+ console.log("startshowProcess")
+ console.log(CalendarNum)
+ 
 
 }
 
-export {ShowProcess}
+
 
 
  
@@ -46,9 +59,9 @@ function App(){
   
   const week = ["日", "月", "火", "水", "木", "金", "土"];
  
-
+ console.log(CalendarNum)
   
-
+ const [calendarNum, setCalendarNum] = useState([today.getFullYear(), today.getMonth()]);
 
 
   function CreateProcess(year: number, month: number) {
@@ -93,38 +106,33 @@ function App(){
      
     }          //↑のようなタグも全てコンポーネントに書き換えた方が良いのか？
     return calendar
-      
-      
-
-      
     
   }
 
 
   
-console.log(ShowProcess(today))
+useEffect(() => {
 
-  useEffect(() => {
-
-    ShowProcess(today)
+    ShowProcess(CalendarNum)
+    setCalendarNum([...calendarNum]);
     
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+
+ 
+
   function last() {
     showDate.setMonth(showDate.getMonth() - 1);
-    ShowProcess(showDate);
+   // ShowProcess(showDate);
     console.log(showDate)
   }
 
 
   function next() {
-    showDate.setMonth(showDate.getMonth() + 1);
-    ShowProcess(showDate);
-    console.log("chip")
+    ShowProcess(CalendarNum);
+    setCalendarNum([...calendarNum]);
     console.log(showDate)
-   console.log(ShowProcess(showDate))
-
 
   }
 
@@ -134,13 +142,15 @@ console.log(ShowProcess(today))
      
 
       <div className="wrapper">
-        <ForHeader count={8}/>
+        <ForHeader CalendarNumber={CalendarNum} />
+   
 
         <div id="next-last-btn">
           <Button variant="contained" id="last" onClick={last}>＜</Button>
           <Button variant="contained" id="next" onClick={next}>＞</Button>
         </div>
         <div id="calendar"></div>
+        
 
 
       </div>
